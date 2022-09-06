@@ -22,6 +22,7 @@ import firestore from "@react-native-firebase/firestore";
 export function Home() {
   const { COLORS } = useTheme();
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
+  const [search, setSearch] = useState("");
 
   function fetchPizzas(value: string) {
     const formattedValue = value.toLocaleLowerCase().trim();
@@ -51,6 +52,14 @@ export function Home() {
     fetchPizzas("");
   }, []);
 
+  function handleSearch() {
+    fetchPizzas(search);
+  }
+  function handleSearchClear() {
+    setSearch("");
+    fetchPizzas("");
+  }
+
   return (
     <Container>
       <Header>
@@ -63,7 +72,12 @@ export function Home() {
           <MaterialIcons name="logout" color={COLORS.TITLE} size={24} />
         </TouchableOpacity>
       </Header>
-      <Search onSearch={() => {}} onClear={() => {}} />
+      <Search
+        onSearch={handleSearch}
+        onClear={handleSearchClear}
+        onChangeText={setSearch}
+        value={search}
+      />
 
       <MenuHeader>
         <Title>Cardápio</Title>
