@@ -6,11 +6,16 @@ import { ThemeProvider } from "styled-components/native";
 import theme from "./src/theme";
 import { SignIn } from "@screens/SignIn";
 import { StatusBar } from "expo-status-bar";
+import { ActivityIndicator } from "react-native";
 export default function App() {
-  useFonts({
+  const [isLoaded] = useFonts({
     DMSans_400Regular,
     DMSerifDisplay_400Regular,
   });
+
+  if (!isLoaded) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
