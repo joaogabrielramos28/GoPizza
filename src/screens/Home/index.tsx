@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import happyEmoji from "@assets/happy.png";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   Container,
@@ -23,6 +24,7 @@ export function Home() {
   const { COLORS } = useTheme();
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
   const [search, setSearch] = useState("");
+  const navigation = useNavigation();
 
   function fetchPizzas(value: string) {
     const formattedValue = value.toLocaleLowerCase().trim();
@@ -60,6 +62,10 @@ export function Home() {
     fetchPizzas("");
   }
 
+  function handleOpen(id: string) {
+    navigation.navigate("product", { id });
+  }
+
   return (
     <Container>
       <Header>
@@ -87,7 +93,9 @@ export function Home() {
       <FlatList
         data={pizzas}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ProductCard data={item} />}
+        renderItem={({ item }) => (
+          <ProductCard data={item} onPress={() => handleOpen(item.id)} />
+        )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingTop: 20,
