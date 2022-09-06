@@ -94,7 +94,9 @@ export function Home() {
 
       <MenuHeader>
         <Title>Cardápio</Title>
-        <MenuItemsNumber>{pizzas.length} pizzas</MenuItemsNumber>
+        <MenuItemsNumber>{`${pizzas.length} ${
+          pizzas.length > 1 ? "pizzas" : "pizza"
+        }`}</MenuItemsNumber>
       </MenuHeader>
 
       <FlatList
