@@ -6,6 +6,7 @@ import AppLoading from "expo-app-loading";
 import { ThemeProvider } from "styled-components/native";
 import theme from "./src/theme";
 import { SignIn } from "@screens/SignIn";
+import { StatusBar } from "expo-status-bar";
 export default function App() {
   const [fontsLoaded] = useFonts({
     DMSans_400Regular,
@@ -18,6 +19,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
       <SignIn />
     </ThemeProvider>
   );
