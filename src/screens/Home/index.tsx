@@ -11,6 +11,7 @@ import {
 } from "./styles";
 import { useTheme } from "styled-components/native";
 import { TouchableOpacity } from "react-native";
+import { Search } from "@components/Search";
 
 export function Home() {
   const { COLORS } = useTheme();
@@ -26,6 +27,7 @@ export function Home() {
           <MaterialIcons name="logout" color={COLORS.TITLE} size={24} />
         </TouchableOpacity>
       </Header>
+      <Search onSearch={() => {}} onClear={() => {}} />
     </Container>
   );
 }
