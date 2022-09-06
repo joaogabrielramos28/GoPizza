@@ -8,6 +8,9 @@ import {
   GreetingEmoji,
   GreetingText,
   Header,
+  MenuHeader,
+  MenuItemsNumber,
+  Title,
 } from "./styles";
 import { useTheme } from "styled-components/native";
 import { TouchableOpacity } from "react-native";
@@ -28,6 +31,11 @@ export function Home() {
         </TouchableOpacity>
       </Header>
       <Search onSearch={() => {}} onClear={() => {}} />
+
+      <MenuHeader>
+        <Title>Cardápio</Title>
+        <MenuItemsNumber>10 pizzas</MenuItemsNumber>
+      </MenuHeader>
     </Container>
   );
 }
