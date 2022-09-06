@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type AuthContextData = {
   signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
   isLogging: boolean;
   user: User | null;
 };
@@ -95,11 +96,18 @@ function AuthProvider({ children }: AuthProviderProps) {
     setIsLogging(false);
   }
 
+  async function signOut() {
+    await auth().signOut();
+
+    await AsyncStorage.removeItem(USER_COLLECTION);
+
+    setUser(null);
+  }
   useEffect(() => {
     loadUserStorageData();
   }, []);
   return (
-    <AuthContext.Provider value={{ signIn, isLogging, user }}>
+    <AuthContext.Provider value={{ signIn, isLogging, user, signOut }}>
       {children}
     </AuthContext.Provider>
   );
