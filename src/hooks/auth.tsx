@@ -1,7 +1,15 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
+import { Alert } from "react-native";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 type AuthContextData = {
   signIn: (email: string, password: string) => Promise<void>;
   isLogging: boolean;
@@ -17,6 +25,8 @@ type User = {
   name: string;
   isAdmin: boolean;
 };
+
+const USER_COLLECTION = "@gopizza:users";
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -36,7 +46,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           .collection("users")
           .doc(account.user.uid)
           .get()
-          .then((profile) => {
+          .then(async (profile) => {
             const { name, isAdmin } = profile.data() as User;
 
             if (profile.exists) {
@@ -45,7 +55,10 @@ function AuthProvider({ children }: AuthProviderProps) {
                 name,
                 isAdmin,
               };
-
+              await AsyncStorage.setItem(
+                USER_COLLECTION,
+                JSON.stringify(userData)
+              );
               setUser(userData);
             }
           })
@@ -67,6 +80,24 @@ function AuthProvider({ children }: AuthProviderProps) {
         setIsLogging(false);
       });
   }
+
+  async function loadUserStorageData() {
+    setIsLogging(true);
+
+    const storedUser = await AsyncStorage.getItem(USER_COLLECTION);
+
+    if (storedUser) {
+      const userData = JSON.parse(storedUser) as User;
+
+      setUser(userData);
+    }
+
+    setIsLogging(false);
+  }
+
+  useEffect(() => {
+    loadUserStorageData();
+  }, []);
   return (
     <AuthContext.Provider value={{ signIn, isLogging, user }}>
       {children}
