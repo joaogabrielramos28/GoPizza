@@ -76,12 +76,14 @@ export function Home() {
     navigation.navigate("product", {});
   }
 
+  const userName = user?.isAdmin ? "Admin" : "Garçom";
+
   return (
     <Container>
       <Header>
         <Greeting>
           <GreetingEmoji source={happyEmoji} />
-          <GreetingText>Olá, Admin</GreetingText>
+          <GreetingText>Olá, {userName}</GreetingText>
         </Greeting>
 
         <TouchableOpacity onPress={signOut}>
