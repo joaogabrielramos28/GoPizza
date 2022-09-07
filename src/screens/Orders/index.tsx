@@ -1,6 +1,12 @@
 import React from "react";
-import { Container } from "./styles";
+import { Container, Header, Title } from "./styles";
 
 export function Orders() {
-  return <Container></Container>;
+  return (
+    <Container>
+      <Header>
+        <Title>Pedidos Feitos</Title>
+      </Header>
+    </Container>
+  );
 }
