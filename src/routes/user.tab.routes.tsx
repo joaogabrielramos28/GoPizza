@@ -26,7 +26,7 @@ export function UserTabRoutes() {
       }}
     >
       <Screen
-        name="Home"
+        name="home"
         component={Home}
         options={{
           tabBarIcon: ({ color }) => (
@@ -35,7 +35,7 @@ export function UserTabRoutes() {
         }}
       />
       <Screen
-        name="Orders"
+        name="orders"
         component={Orders}
         options={{
           tabBarIcon: ({ color }) => (
