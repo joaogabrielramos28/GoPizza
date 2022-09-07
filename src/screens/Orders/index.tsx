@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { Alert, FlatList } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { useAuth } from "@hooks/auth";
 
@@ -26,6 +26,23 @@ export function Orders() {
       });
     return () => subscribe();
   }, []);
+
+  function handlePizzaDelivered(id: string) {
+    Alert.alert("Pedido", "Confirmar a entrega da pizza?", [
+      {
+        text: "Não",
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: () => {
+          firestore().collection("orders").doc(id).update({
+            status: "Entregue",
+          });
+        },
+      },
+    ]);
+  }
   return (
     <Container>
       <Header>
@@ -36,7 +53,12 @@ export function Orders() {
         data={orders}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
-          <OrderCard index={index} data={item} />
+          <OrderCard
+            disabled={item.status === "Entregue"}
+            index={index}
+            data={item}
+            onPress={() => handlePizzaDelivered(item.id)}
+          />
         )}
         numColumns={2}
         showsVerticalScrollIndicator={false}
